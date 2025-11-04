@@ -1,6 +1,6 @@
-# SmartConnect Backend
+# MarketConnect Backend
 
-Backend server for SmartConnect - a platform where business owners and marketers meet to trade smarter.
+Backend server for MarketConnect — a platform where business owners and marketers meet to trade smarter.
 
 ## Features
 
@@ -30,7 +30,7 @@ Backend server for SmartConnect - a platform where business owners and marketers
 1. Clone the repository:
 ```bash
 git clone [your-repo-url]
-cd smartconnect-backend
+cd marketconnect-backend
 ```
 
 2. Install dependencies:
@@ -41,7 +41,7 @@ npm install
 3. Create a `.env` file in the root directory:
 ```env
 PORT=3000
-MONGO_URL=mongodb://localhost:27017/smartconnect
+	MONGO_URL=mongodb://localhost:27017/marketconnect
 JWT_SECRET=your-secret-key-change-this-in-production
 ```
 
