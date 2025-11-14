@@ -1,57 +1,38 @@
-import express from 'express';
-import http from 'http';
-import { Server as SocketIOServer } from 'socket.io';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import { PORT, MONGO_URL } from './config';
+import express, { Request, Response } from "express";
+import http from "http";
+import { Server } from "socket.io";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-import healthRouter from './routes/health';
-import productsRouter from './routes/products';
-import authRouter from './routes/auth';
+dotenv.config();
 
 const app = express();
-app.use(cors());
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: { origin: "*" },
+});
+
 app.use(express.json());
 
-// Auth routes (no auth middleware needed)
-app.use('/api/auth', authRouter);
+// ✅ MongoDB connection
+const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/marketconnect";
 
-app.use('/', healthRouter);
-app.use('/api/products', productsRouter);
+mongoose
+  .connect(MONGO_URI)
+  .then(() => console.log("✅ MongoDB connected successfully"))
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-const server = http.createServer(app);
-const io = new SocketIOServer(server, {
-  cors: { origin: '*' }
+const PORT = process.env.PORT || 5000;
+
+app.get("/", (req: Request, res: Response) => {
+  res.send("Backend + Socket.IO + MongoDB is running");
 });
 
-io.on('connection', (socket) => {
-  console.log('socket connected', socket.id);
-  socket.on('join', ({ room }) => {
-    socket.join(room);
-  });
-  socket.on('message', (msg) => {
-    if (msg && msg.room) io.to(msg.room).emit('message', msg);
-  });
-  socket.on('disconnect', () => console.log('socket disconnected', socket.id));
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
+  socket.on("disconnect", () => console.log("User disconnected:", socket.id));
 });
 
-async function start() {
-  try {
-    const skipDb = process.env.SKIP_DB === 'true';
-    if (!skipDb) {
-      await mongoose.connect(MONGO_URL);
-      console.log('MongoDB connected');
-    } else {
-      console.log('SKIP_DB is set, skipping MongoDB connection');
-    }
-
-    server.listen(PORT, () => {
-      console.log(`Server listening on http://localhost:${PORT}`);
-    });
-  } catch (err) {
-    console.error('Failed to start server', err);
-    process.exit(1);
-  }
-}
-
-start();
+server.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
