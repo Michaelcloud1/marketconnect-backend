@@ -1,17 +1,22 @@
 import React from "react";
-import type { Product } from "../types";
+import { Product } from "../../types/Product";
 
-
-interface Props {
+interface ProductCardProps {
   product: Product;
 }
 
-const ProductCard: React.FC<Props> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
-    <div className="border rounded-lg p-4 shadow-sm hover:shadow-md transition">
-      <h2 className="font-semibold text-lg mb-2">{product.title}</h2>
-      <p className="text-gray-600 mb-2">Price: ${product.price}</p>
-      <p className="text-gray-500">Available: {product.qty}</p>
+    <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+      <img
+        src={product.images[0] || "https://via.placeholder.com/300"}
+        alt={product.title}
+        className="w-full h-40 object-cover rounded mb-4"
+      />
+      <h2 className="text-xl font-bold mb-2">{product.title}</h2>
+      <p className="text-green-600 font-semibold">Price: ${product.price}</p>
+      <p className="text-sm text-gray-600">Available: {product.qty}</p>
+      <p className="text-sm text-gray-500 mt-2">{product.description}</p>
     </div>
   );
 };

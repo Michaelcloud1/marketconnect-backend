@@ -1,21 +1,21 @@
 {
   "compilerOptions": {
-    "target": "ES2020",                          // Modern JavaScript output
-    "module": "commonjs",                        // Node.js style modules
-    "rootDir": "./src",                           // Only compile files inside src
-    "outDir": "./dist",                           // Output compiled JS here
-    "strict": true,                               // Enable strict type checking
-    "esModuleInterop": true,                      // For easier imports of CommonJS modules
-    "forceConsistentCasingInFileNames": true,    // Avoid case-related errors
-    "skipLibCheck": true,                         // Skip type checking for node_modules
-    "resolveJsonModule": true,                    // Import JSON files
-    "moduleResolution": "node",                   // Standard Node module resolution
-    "noImplicitAny": true,                        // Require explicit types
-    "noUnusedLocals": true,                       // Warn on unused variables
-    "noUnusedParameters": true,                   // Warn on unused params
-    "sourceMap": true                             // Generate source maps for debugging
+    "target": "ES2020",
+    "module": "commonjs",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "sourceMap": true,
+    "baseUrl": "src"                 // Add this for absolute imports (optional)
   },
-  "include": ["src/**/*"],                        // Only include backend source files
-  "exclude": ["node_modules", "dist", "marketconnect-frontend"] // Exclude irrelevant folders
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
-
